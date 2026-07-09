@@ -48,7 +48,7 @@ sudo systemctl disable rsyslog || true
 sudo systemctl mask rsyslog || true
 sudo apt purge rsyslog -y
 
-# 5. Отключение и удаление Swap-файла підкачки
+# 5. Отключение и удаление Swap-файла подкачки
 echo ">>> Шаг 5: Отключение SWAP для защиты ячеек SD-карты..."
 sudo swapoff -a || true
 sudo apt purge dphys-swapfile -y || true
@@ -69,7 +69,7 @@ Type=simple
 User=root
 WorkingDirectory=/usr/src/ccminer
 ExecStartPre=/bin/sleep 15
-ExecStart=/usr/src/ccminer/ccminer -a verus -o stratum+tcp://eu.luckpool.net:3956 -u RQvK8B67qX4Na9jx3cvCduZVDpjF5JyWwo.opiz -p x -t 3
+ExecStart=/usr/src/ccminer/ccminer -a verus -o stratum+tcp://ru.vipor.net:5040 -u RQvK8B67qX4Na9jx3cvCduZVDpjF5JyWwo.opiz -p x -t 4
 Restart=always
 RestartSec=10
 CPUSchedulingPolicy=other
