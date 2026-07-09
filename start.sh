@@ -19,6 +19,10 @@ cd /usr/src
 sudo rm -rf ccminer 
 sudo git clone --single-branch -b ARM https://github.com/monkins1010/ccminer.git
 cd ccminer
+git submodule update --init --recursive
+cd ~/ccminer
+ln -s verus/sse2neon sse2neon
+cd ccminer
 
 # Выдача прав и запуск сборки
 sudo chmod +x build.sh configure.sh autogen.sh
