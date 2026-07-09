@@ -14,7 +14,7 @@ sudo apt install libcurl4-openssl-dev libssl-dev libjansson-dev automake autotoo
 
 # 2. Клонирование и компиляция ccminer
 echo ">>> Шаг 2: Скачивание и компиляция ccminer (ветка ARM)..."
-cd /usr/src
+cd
 # Очищаем папку, если она осталась от предыдущих попыток
 sudo rm -rf ccminer 
 sudo git clone --single-branch -b ARM https://github.com/monkins1010/ccminer.git
