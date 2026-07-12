@@ -13,16 +13,12 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential libomp5 git -y
 
 # 2. Клонирование и компиляция ccminer
-echo ">>> Шаг 2: Скачивание и компиляция ccminer (ветка ARM)..."
-cd
-# Очищаем папку, если она осталась от предыдущих попыток
-sudo rm -rf ccminer 
-sudo git clone --single-branch -b ARM https://github.com/monkins1010/ccminer.git
+echo ">>> Шаг 2: Скачивание и компиляция ccminer"
+cd ~
+rm -rf ccminer
+git clone --recursive --single-branch -b ARM https://github.com/monkins1010/ccminer.git
 cd ccminer
-git submodule update --init --recursive
-cd ~/ccminer
-ln -s verus/sse2neon sse2neon
-cd ccminer
+ln -sf verus/sse2neon sse2neon
 
 # Выдача прав и запуск сборки
 sudo chmod +x build.sh configure.sh autogen.sh
