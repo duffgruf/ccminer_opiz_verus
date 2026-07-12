@@ -21,7 +21,7 @@ cd ccminer
 ln -sf verus/sse2neon sse2neon
 
 # Исправление для GCC 9
-sed -i 's/__GNUC__ <= 9/__GNUC__ < 9/' ~/ccminer/verus/sse2neon/SSE2NEON.h
+sed -i 's/__GNUC__ <= 9/__GNUC__ < 9/' /home/orangepi/ccminer/SSE2NEON.h
 
 # Выдача прав и запуск сборки
 sudo chmod +x build.sh configure.sh autogen.sh
