@@ -19,17 +19,47 @@ sudo apt install libcurl4-openssl-dev libssl-dev libjansson-dev automake autotoo
 echo ">>> Шаг 2: Скачивание и компиляция ccminer"
 cd ~
 rm -rf ccminer
+
 git clone --recursive --single-branch -b ARM https://github.com/monkins1010/ccminer.git
+
 cd ccminer
+
 ln -sf verus/sse2neon sse2neon
 
-# Исправление для GCC 9
-sed -i 's/__GNUC__ <= 9/__GNUC__ < 9/' /home/orangepi/ccminer/SSE2NEON.h
+# Исправление GCC 9
+sed -i 's/__GNUC__ <= 9/__GNUC__ < 9/' SSE2NEON.h
+
+echo ">>> Оптимизация build.sh для Cortex-A53..."
+
+# Заменяем стандартные CFLAGS на оптимизированные
+sed -i 's|CFLAGS="-O3" ./configure.sh|CFLAGS="-O3 -pipe -mcpu=cortex-a53 -mtune=cortex-a53 -fomit-frame-pointer -funroll-loops -frename-registers -flto" CXXFLAGS="-O3 -pipe -mcpu=cortex-a53 -mtune=cortex-a53 -fomit-frame-pointer -funroll-loops -frename-registers -flto" LDFLAGS="-flto" ./configure.sh|' build.sh
+
+# Используем все ядра при сборке
+sed -i 's/^make$/make -j$(nproc)/' build.sh
+
+chmod +x autogen.sh configure.sh build.sh
+
+./build.sh
+
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+
+sudo swapoff -a
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
+cat <<EOF | sudo tee /etc/sysctl.d/99-verus.conf
+net.core.rmem_max=4194304
+net.core.wmem_max=4194304
+net.ipv4.tcp_rmem=4096 87380 4194304
+net.ipv4.tcp_wmem=4096 65536 4194304
+net.core.netdev_max_backlog=2500
+EOF
+
+sudo sysctl --system
 
 # Выдача прав и запуск сборки
-sudo chmod +x build.sh configure.sh autogen.sh
-sudo ./build.sh
-sudo chmod +x ccminer
+chmod +x build.sh configure.sh autogen.sh
+./build.sh
+echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
 
 # 3. Отключение системного логирования (Journald)
 echo ">>> Шаг 3: Перевод Systemd Journald в оперативную память..."
