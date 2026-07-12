@@ -20,6 +20,9 @@ git clone --recursive --single-branch -b ARM https://github.com/monkins1010/ccmi
 cd ccminer
 ln -sf verus/sse2neon sse2neon
 
+# Исправление для GCC 9
+sed -i 's/__GNUC__ <= 9/__GNUC__ < 9/' ~/ccminer/verus/sse2neon/SSE2NEON.h
+
 # Выдача прав и запуск сборки
 sudo chmod +x build.sh configure.sh autogen.sh
 sudo ./build.sh
