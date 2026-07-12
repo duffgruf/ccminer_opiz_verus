@@ -70,7 +70,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/usr/src/ccminer
+WorkingDirectory=/home/orangepi/ccminer
 ExecStartPre=/bin/sleep 15
 ExecStart=/usr/src/ccminer/ccminer -a verus -o stratum+tcp://ru.vipor.net:5040 -u RQvK8B67qX4Na9jx3cvCduZVDpjF5JyWwo.opiz -p x -t 4
 Restart=always
